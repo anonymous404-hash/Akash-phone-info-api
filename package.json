@@ -1,0 +1,14 @@
+{
+  "name": "zephrex-proxy-api",
+  "version": "1.0.0",
+  "description": "Proxy API for Zephrex Digital with key management",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  }
+}
