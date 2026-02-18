@@ -88,12 +88,12 @@ module.exports = async (req, res) => {
       },
       cached: false,
       proxyUsed: true,
-      api_developer: "@AkashExploits",           // ← YOUR NEW NAME
-      BUY_API: "@AkashExploits",                  // ← YOUR NEW NAME
-      SUPPORT: "@AkashExploits",                  // ← YOUR NEW NAME
-      owner: "https://t.me/AkashExploits \n BUY INSTANT CHEAP PRICE",
-      powered_by: "@AkashExploits",                // ← YOUR NEW NAME
-      source: "@AkashExploits"                     // ← YOUR NEW NAME
+      api_developer: "@Akashishare",           // ← YOUR NEW NAME
+      BUY_API: "@Akashishare",                  // ← YOUR NEW NAME
+      SUPPORT: "@Akashishare",                  // ← YOUR NEW NAME
+      owner: "https://t.me/Akashishare \n BUY INSTANT CHEAP PRICE",
+      powered_by: "@Akashishare",                // ← YOUR NEW NAME
+      source: "@Akashishare"                     // ← YOUR NEW NAME
     };
 
     return res.json(enrichedResponse);
