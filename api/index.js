@@ -1,10 +1,10 @@
 // api/index.js
-// Unlimited Proxy API for Zephrex Digital
+// Unlimited Proxy API with Total Re-Branding
 
 const KEY_STORE = {
   "AKASH_PAID3MONTH": {
     name: "Premium Unlimited Key",
-    expiry_date: "2026-12-31", // Expiry badha di hai
+    expiry_date: "2026-12-31",
     status: "Active (Unlimited)"
   }
 };
@@ -20,45 +20,48 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'GET') return res.status(405).json({ success: false, error: 'Use GET method' });
-
+  
   const { key, type, term } = req.query;
 
   if (!key || !type || !term) {
-    return res.status(400).json({ success: false, error: 'Missing parameters (key, type, or term)' });
+    return res.status(400).json({ success: false, error: 'Parameters missing' });
   }
 
   const keyData = KEY_STORE[key];
-  if (!keyData) {
-    return res.status(403).json({ success: false, error: 'Invalid API key' });
-  }
-
-  // Expiry Check (Sirf date check hogi, limit nahi)
-  const today = new Date();
-  const expiry = new Date(keyData.expiry_date);
-  if (today > expiry) {
-    return res.status(403).json({ success: false, error: 'Key Expired' });
-  }
+  if (!keyData) return res.status(403).json({ success: false, error: 'Invalid Key' });
 
   try {
     const externalUrl = `${EXTERNAL_API.baseUrl}?key=${EXTERNAL_API.key}&type=${encodeURIComponent(type)}&term=${encodeURIComponent(term)}`;
     const response = await fetch(externalUrl);
     const data = await response.json();
 
-    // Response with your bot branding
-    return res.json({
-      ...data,
+    // --- RE-BRANDING LOGIC ---
+    // Purane labels ko delete kar rahe hain taaki aapka naam hi rahe
+    delete data.BUY_API;
+    delete data.SUPPORT;
+    delete data.api_developer;
+    delete data.owner;
+
+    // Naya Response Structure
+    const finalResponse = {
+      status: data.status || true,
+      data: data.data || [],
+      BUY_API: "@Akash_Exploits_bot",          // ← Fixed!
+      SUPPORT: "@Akash_Exploits_bot",          // ← Fixed!
+      api_developer: "@Akash_Exploits_bot",    // ← Fixed!
+      owner: "https://t.me/Akash_Exploits_bot",// ← Fixed!
       key_details: {
         status: "Unlimited Access",
         expiry: keyData.expiry_date,
-        info: "No daily limit applied"
+        info: "No daily limit applied by Akash"
       },
-      api_developer: "@Akash_Exploits_bot",
-      owner: "https://t.me/Akash_Exploits_bot",
-      powered_by: "TITAN V6 HYPERION SYSTEM"
-    });
+      powered_by: "TITAN V6 HYPERION SYSTEM",
+      copyright: "© 2026 @Akash_Exploits_bot"
+    };
+
+    return res.json(finalResponse);
 
   } catch (error) {
-    return res.status(500).json({ success: false, error: 'External API Error' });
+    return res.status(500).json({ success: false, error: 'Server Error' });
   }
 };
